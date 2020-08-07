@@ -7,7 +7,7 @@ import { clearErrors } from "../redux/actions/errorActions";
 import { Alert } from "reactstrap";
 function MyError(props) {
   let errorArray = props.errors;
-  console.log(errorArray);
+
   const listErrors = errorArray.map((error) => (
     <Alert color="danger">
       <p>{error}</p>
@@ -24,7 +24,7 @@ class Login extends Component {
   }
   componentDidUpdate(prevProps) {
     let { error } = this.props;
-    console.log("p", error);
+
     if (error !== prevProps.error) {
       if (error.id === "LOGIN_USER_FAILUER") {
         this.setState({

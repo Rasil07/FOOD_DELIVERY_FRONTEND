@@ -16,6 +16,7 @@ const initialState = {
   isAuthenticated: null,
   isLoading: false,
   user: null,
+  isAdmin: false,
 };
 
 export default function (state = initialState, action) {
@@ -37,6 +38,7 @@ export default function (state = initialState, action) {
         isLoading: false,
         isAuthenticated: true,
         user: action.payload,
+        isAdmin: action.payload.decoded.data.isAdmin,
       };
     case REGISTER_USER_SUCCESS:
     case LOGIN_USER_SUCCESS:
@@ -46,6 +48,7 @@ export default function (state = initialState, action) {
         ...action.payload,
         isLoading: false,
         isAuthenticated: true,
+        isAdmin: false,
       };
     case AUTH_ERRORS:
     case LOGIN_USER_FAILURE:
@@ -58,6 +61,7 @@ export default function (state = initialState, action) {
         user: null,
         isAuthenticated: false,
         isLoading: false,
+        isAdmin: false,
       };
     }
     default:

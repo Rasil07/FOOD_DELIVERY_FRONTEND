@@ -5,49 +5,45 @@ import Login from "./components/Login";
 import Navbar from "./components/Navbar";
 import { Router, Route, Switch } from "react-router-dom";
 import Register from "./components/Register";
-import { Provider } from "react-redux";
-import store from "./redux/store";
+
 import history from "./utils/history";
 import { loadUser } from "./redux/actions/authActions";
 import { returnError } from "./redux/actions/errorActions";
 import Adminpanel from "./components/admin/Adminpanel";
-import requireAuth from "./components/Router";
+
 import Unauthorized from "./components/Unauthorized";
+
+import { connect } from "react-redux";
 class App extends Component {
   componentDidMount() {
-    store.dispatch(loadUser());
+    this.props.loadUser();
   }
-
   render() {
     return (
-      <Provider store={store}>
-        <Router history={history}>
-          <Navbar />
-          <div className="container">
-            <Switch>
-              <Route exact path="/login">
-                <Login />
-              </Route>
-              <Route exact path="/register">
-                <Register />
-              </Route>
+      <Router history={history}>
+        <Navbar />
+        <div className="container">
+          <Switch>
+            <Route exact path="/login" component={Login} />
 
-              <Route
-                exact
-                path="/administration"
-                component={requireAuth(Adminpanel)}
-              ></Route>
-              <Route
-                exact
-                path="/unauthorized"
-                component={Unauthorized}
-              ></Route>
-            </Switch>
-          </div>
-        </Router>
-      </Provider>
+            <Route exact path="/register" component={Register} />
+
+            <Route
+              exact
+              path="/administration"
+              component={Adminpanel}
+              {...this.props}
+            />
+
+            <Route exact path="/unauthorized" component={Unauthorized} />
+          </Switch>
+        </div>
+      </Router>
     );
   }
 }
-
-export default App;
+const mapStateToProps = (state) => ({
+  isAuthenticated: state.auth.isAuthenticated,
+  user: state.auth.user,
+});
+export default connect(mapStateToProps, { loadUser })(App);

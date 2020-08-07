@@ -57,6 +57,7 @@ export const loginUser = ({ email, password }) => (dispatch) => {
   axios
     .post("/user/login", body, config)
     .then((res) => {
+      console.log(res.data);
       dispatch({
         type: LOGIN_USER_SUCCESS,
         payload: res.data,
@@ -122,7 +123,7 @@ export const registerUser = ({
       });
 
       let errorMessage = err.response.data.message;
-      console.log(errorMessage);
+
       var val = [];
       for (var key in errorMessage) {
         if (errorMessage.hasOwnProperty(key)) {
