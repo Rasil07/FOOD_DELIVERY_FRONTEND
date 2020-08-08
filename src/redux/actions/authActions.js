@@ -1,6 +1,7 @@
 import axios from "axios";
 import { returnError, clearErrors } from "./errorActions";
 import history from "../../utils/history";
+import { tokenConfig } from "../../utils/tokenConfig";
 import {
   LOGIN_USER_REQUEST,
   LOGIN_USER_SUCCESS,
@@ -37,7 +38,7 @@ export const loadUser = () => (dispatch, getState) => {
       })
     )
     .catch((err) => {
-      // dispatch(returnError(err.response.data.message, err.response.status));
+      dispatch(returnError(err.response.data.message, err.response.status));
       dispatch({
         type: AUTH_ERRORS,
       });
@@ -57,7 +58,6 @@ export const loginUser = ({ email, password }) => (dispatch) => {
   axios
     .post("/user/login", body, config)
     .then((res) => {
-      console.log(res.data);
       dispatch({
         type: LOGIN_USER_SUCCESS,
         payload: res.data,
@@ -121,7 +121,7 @@ export const registerUser = ({
       dispatch({
         type: REGISTER_USER_FAILURE,
       });
-
+      console.log("actions", err.response);
       let errorMessage = err.response.data.message;
 
       var val = [];
@@ -135,11 +135,11 @@ export const registerUser = ({
 };
 
 //configuring token
-export const tokenConfig = (getState) => {
-  const token = getState().auth.token;
+// export const tokenConfig = (getState) => {
+//   const token = getState().auth.token;
 
-  if (token) {
-    return token;
-  }
-  return null;
-};
+//   if (token) {
+//     return token;
+//   }
+//   return null;
+// };

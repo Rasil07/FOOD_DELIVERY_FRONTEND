@@ -7,7 +7,7 @@ import { clearErrors } from "../redux/actions/errorActions";
 import { Alert } from "reactstrap";
 function MyError(props) {
   let errorArray = props.errors;
-
+  console.log(errorArray);
   const listErrors = errorArray.map((error) => (
     <Alert color="danger">
       <p>{error}</p>

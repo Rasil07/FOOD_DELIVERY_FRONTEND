@@ -5,7 +5,7 @@ import { registerUser } from "../redux/actions/authActions";
 import { clearErrors } from "../redux/actions/errorActions";
 
 function MyError(props) {
-  let errorArray = Object.values(props.errors);
+  let errorArray = props.errors;
 
   const listErrors = errorArray.map((error) => (
     <Alert color="danger">
@@ -17,14 +17,7 @@ function MyError(props) {
 class Register extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      email: "",
-      password: "",
-      cpassword: "",
-      address: "",
-      contact_no: "",
-      msg: {},
-    };
+    this.state = {};
 
     this.handleSubmit = this.handleSubmit.bind(this);
   }
@@ -80,7 +73,6 @@ class Register extends Component {
               value={this.state.value}
               onChange={(e) => this.setState({ name: e.target.value })}
               className="form-control"
-              required
             />
           </div>
           <div className="form-group">
@@ -92,7 +84,6 @@ class Register extends Component {
               value={this.state.value}
               onChange={(e) => this.setState({ email: e.target.value })}
               className="form-control"
-              required
             />
           </div>
           <div className="form-group">
@@ -104,7 +95,6 @@ class Register extends Component {
               value={this.state.value}
               onChange={(e) => this.setState({ password: e.target.value })}
               className="form-control"
-              required
             />
           </div>
           <div className="form-group">
@@ -118,7 +108,6 @@ class Register extends Component {
                 this.setState({ confirm_password: e.target.value })
               }
               className="form-control"
-              required
             />
           </div>
           <div className="form-group">
@@ -130,7 +119,6 @@ class Register extends Component {
               value={this.state.value}
               onChange={(e) => this.setState({ contact_no: e.target.value })}
               className="form-control"
-              required
             />
           </div>
           <div className="form-group">
@@ -142,7 +130,6 @@ class Register extends Component {
               value={this.state.value}
               onChange={(e) => this.setState({ address: e.target.value })}
               className="form-control"
-              required
             />
           </div>
           <div className="form-group">

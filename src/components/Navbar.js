@@ -100,6 +100,7 @@ class Navbar extends Component {
 }
 const mapPropsToState = (state) => ({
   user: state.auth.user,
+  isAdmin: state.auth.isAdmin,
 });
 
 export default connect(mapPropsToState, { logout })(Navbar);
