@@ -9,16 +9,29 @@ import Register from "./components/Register";
 
 import history from "./utils/history";
 import { loadUser } from "./redux/actions/authActions";
+
 import { loadDishes } from "./redux/actions/dishActions";
-import { returnError } from "./redux/actions/errorActions";
+
 import Adminpanel from "./components/admin/Adminpanel";
 
 import Unauthorized from "./components/Unauthorized";
 
 import { connect } from "react-redux";
 
+import { Alert } from "reactstrap";
+
+function Message(props) {
+  let message = props.message.message;
+
+  return (
+    <Alert color="success">
+      <p>{message}</p>
+    </Alert>
+  );
+}
+
 class App extends Component {
-  componentDidMount(props) {
+  componentDidMount() {
     this.props.loadUser();
     this.props.loadDishes();
   }
@@ -27,6 +40,9 @@ class App extends Component {
     return (
       <Router history={history}>
         <Navbar />
+        {this.props.message.message ? (
+          <Message message={this.props.message} />
+        ) : null}
         <div className="container">
           <Switch>
             <Route exact path="/" component={Dish} />
@@ -54,5 +70,6 @@ const mapStateToProps = (state) => ({
   isAdmin: state.auth.isAdmin,
   dishes: state.dishes,
   cart: state.cart,
+  message: state.message,
 });
 export default connect(mapStateToProps, { loadUser, loadDishes })(App);

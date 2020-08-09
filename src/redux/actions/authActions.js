@@ -1,5 +1,6 @@
 import axios from "axios";
 import { returnError, clearErrors } from "./errorActions";
+import { getResponseMessage, clearMessage } from "./messageActions";
 import history from "../../utils/history";
 import { tokenConfig } from "../../utils/tokenConfig";
 import {
@@ -13,11 +14,13 @@ import {
   USER_LOADED,
   AUTH_ERRORS,
   LOGOUT_SUCCESS,
+  CLEAR_CART,
 } from "./types";
 
 //logout
 export const logout = () => (dispatch) => {
   dispatch({ type: LOGOUT_SUCCESS });
+  dispatch({ type: CLEAR_CART });
   history.push("/");
 };
 
@@ -62,6 +65,8 @@ export const loginUser = ({ email, password }) => (dispatch) => {
         type: LOGIN_USER_SUCCESS,
         payload: res.data,
       });
+      dispatch(getResponseMessage(res.data.message));
+      setTimeout(() => dispatch(clearMessage()), 2000);
       history.push("/");
       dispatch(clearErrors());
       dispatch(loadUser());
@@ -113,6 +118,8 @@ export const registerUser = ({
         type: REGISTER_USER_SUCCESS,
         payload: res.data,
       });
+      dispatch(getResponseMessage(res.data.message));
+      setTimeout(() => dispatch(clearMessage()), 2000);
       history.push("/");
       dispatch(clearErrors());
       dispatch(loadUser());
@@ -133,13 +140,3 @@ export const registerUser = ({
       dispatch(returnError(val, err.response.status, "REGISTER_USER_FAILURE"));
     });
 };
-
-//configuring token
-// export const tokenConfig = (getState) => {
-//   const token = getState().auth.token;
-
-//   if (token) {
-//     return token;
-//   }
-//   return null;
-// };

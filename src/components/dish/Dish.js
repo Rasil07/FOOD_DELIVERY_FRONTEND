@@ -3,8 +3,10 @@ import { connect } from "react-redux";
 import { loadDishes } from "../../redux/actions/dishActions";
 import { addDish } from "../../redux/actions/cartActions";
 import FoodImage from "../../img/food.png";
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
+// import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import history from "../../utils/history";
+import Cart from "./Cart";
+
 class Dish extends Component {
   constructor(props) {
     super(props);
@@ -16,7 +18,6 @@ class Dish extends Component {
   }
 
   handleOrder(id) {
-    console.log(id);
     if (this.props.isAuthenticated) {
       this.props.addDish(id);
     } else {
@@ -27,7 +28,7 @@ class Dish extends Component {
     const data = this.props.dishes;
     const mapData = data.map((item, index) => (
       <Fragment key={item.id}>
-        <div className="card" style={{ width: "250px" }}>
+        <div className="card" style={{ width: "200px", margin: "" }}>
           <img className="card-img-top" src={FoodImage} alt="Card image cap" />
           <div className="card-body">
             <h8 className="card-title">
@@ -50,12 +51,18 @@ class Dish extends Component {
   };
   render() {
     return (
-      <div className="container">
+      <div
+        className="container"
+        style={{ display: "flex", justifyContent: "space-around" }}
+      >
         <div
           className="container"
           style={{ display: "flex", justifyContent: "space-around" }}
         >
           {this.props.dishes ? this.renderItems() : <li>No dishes found</li>}
+        </div>
+        <div className="container" style={{ width: "20%" }}>
+          <Cart />
         </div>
       </div>
     );

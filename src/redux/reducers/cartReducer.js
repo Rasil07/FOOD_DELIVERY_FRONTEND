@@ -1,7 +1,9 @@
 import {
   ADD_DISH_TO_CART,
   DELETE_DISH_FROM_CART,
-  SUBMIT_ORDER_OF_CART,
+  SUBMIT_ORDER_OF_CART_REQUEST,
+  SUBMIT_ORDER_OF_CART_SUCCESS,
+  SUBMIT_ORDER_OF_CART_FAILURE,
   INCREMENT_NUMBER_OF_DISH_CART,
   DECREMENT_NUMBER_OF_DISH_CART,
   CLEAR_CART,
@@ -12,6 +14,8 @@ const inititalState = {
   allItems: [],
   addedItems: [],
   total: 0,
+  isSubmitting: false,
+  isSubmitted: false,
 };
 
 const cartReducer = (state = inititalState, action) => {
@@ -45,6 +49,28 @@ const cartReducer = (state = inititalState, action) => {
         }
       }
     }
+    case SUBMIT_ORDER_OF_CART_REQUEST:
+      return {
+        ...state,
+        isSubmitting: true,
+      };
+    case SUBMIT_ORDER_OF_CART_FAILURE:
+      return {
+        ...state,
+        isSubmitting: false,
+      };
+    case SUBMIT_ORDER_OF_CART_SUCCESS:
+      return {
+        ...state,
+        isSubmitted: true,
+        isSubmitting: false,
+      };
+    case CLEAR_CART:
+      return {
+        ...state,
+        addedItems: [],
+        total: 0,
+      };
     default:
       return state;
   }
