@@ -6,7 +6,7 @@ import Dish from "./components/dish/Dish";
 import Navbar from "./components/Navbar";
 import { Router, Route, Switch, Redirect } from "react-router-dom";
 import Register from "./components/Register";
-
+import { PrivateRoute } from "./components/PrivateRoute.jsx";
 import history from "./utils/history";
 import { loadUser } from "./redux/actions/authActions";
 
@@ -50,10 +50,11 @@ class App extends Component {
 
             <Route exact path="/register" component={Register} />
 
-            <Route
+            <PrivateRoute
               exact
               path="/administration"
               component={Adminpanel}
+              isAdmin={this.props.isAdmin}
               {...this.props}
             />
 
