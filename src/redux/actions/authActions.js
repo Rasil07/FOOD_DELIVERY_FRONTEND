@@ -26,26 +26,33 @@ export const logout = () => (dispatch) => {
 
 //load user
 export const loadUser = () => (dispatch, getState) => {
-  dispatch({ type: USER_LOADING });
-  axios
-    .post("/user/decode", {
-      headers: {
-        "Content-Type": "application/json",
-        "auth-token": tokenConfig(getState),
-      },
-    })
-    .then((res) =>
-      dispatch({
-        type: USER_LOADED,
-        payload: res.data,
+  if (tokenConfig(getState)) {
+    dispatch({ type: USER_LOADING });
+    axios
+      .post("/user/decode", {
+        headers: {
+          "Content-Type": "application/json",
+          "auth-token": tokenConfig(getState),
+        },
       })
-    )
-    .catch((err) => {
-      dispatch(returnError(err.response.data.message, err.response.status));
-      dispatch({
-        type: AUTH_ERRORS,
+      .then((res) =>
+        dispatch({
+          type: USER_LOADED,
+          payload: res.data,
+        })
+      )
+      .catch((err) => {
+        dispatch(returnError(err.response.data.message, err.response.status));
+        dispatch({
+          type: AUTH_ERRORS,
+        });
+        setTimeout(() => dispatch(clearErrors()), 3000);
       });
+  } else {
+    dispatch({
+      type: AUTH_ERRORS,
     });
+  }
 };
 
 //login user
@@ -85,6 +92,7 @@ export const loginUser = ({ email, password }) => (dispatch) => {
         }
       }
       dispatch(returnError(val, err.response.status, "LOGIN_USER_FAILUER"));
+      setTimeout(() => dispatch(clearErrors()), 3000);
     });
 };
 
@@ -138,5 +146,6 @@ export const registerUser = ({
         }
       }
       dispatch(returnError(val, err.response.status, "REGISTER_USER_FAILURE"));
+      setTimeout(() => dispatch(clearErrors()), 3000);
     });
 };

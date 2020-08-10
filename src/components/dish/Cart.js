@@ -1,25 +1,31 @@
 import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
+
 import {
   placeOrder,
   clearCart,
   changeItemQuantity,
   deleteItem,
 } from "../../redux/actions/cartActions";
+
 class Cart extends Component {
   handleClearOrder = () => {
     this.props.clearCart();
   };
+
   handleSubmitOrder = () => {
     this.props.placeOrder(this.props.cart);
   };
+
   handleQuantityChange = (e) => {
     this.props.changeItemQuantity(e.target.id, e.target.value);
   };
+
   handleDeleteItem = (e) => {
     const id = e.target.value;
     this.props.deleteItem(id);
   };
+
   renderCartItems = () => {
     let addedItemList = this.props.cart.addedItems;
     const dish = [];
@@ -90,6 +96,7 @@ class Cart extends Component {
         <label>Total Price: {this.props.cart.total}</label>
         <button
           className="btn btn-primary ml-auto"
+          id="payment-button"
           onClick={this.handleSubmitOrder}
         >
           Place Order
@@ -133,6 +140,7 @@ const mapStateToProps = (state) => {
     user: state.auth.user,
     dishes: state.dishes.dishes,
     cart: state.cart,
+    config: state.khaltiConfig,
   };
 };
 export default connect(mapStateToProps, {

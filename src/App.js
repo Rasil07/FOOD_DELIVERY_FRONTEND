@@ -36,6 +36,10 @@ import { Alert } from "reactstrap";
 
 import Cart from "./components/dish/Cart";
 
+import ErrorAlerrt from "./components/alerts/ErrorAlert";
+
+import SuccessAlert from "./components/alerts/SuccessAlert";
+
 function Message(props) {
   let message = props.message.message;
 
@@ -47,22 +51,42 @@ function Message(props) {
 }
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      msg: [],
+    };
+  }
   componentDidMount() {
     this.props.loadUser();
-    this.props.loadDishes();
+  }
+  componentDidUpdate(prevProps) {
+    let error = this.props.error;
+    if (error !== prevProps.error) {
+      // console.log("New error", error.msg);
+      this.setState({
+        msg: error.msg,
+      });
+    }
   }
 
   render() {
     return (
       <Fragment>
         <Navbar />
+        {this.state.msg.length ? (
+          <ErrorAlerrt message={this.props.error.msg} />
+        ) : null}
+
+        <SuccessAlert message={this.props.message} />
 
         {this.props.message.message ? (
           <Message message={this.props.message} />
         ) : null}
         <div className="container-fluid">
           <Switch>
-            <Route exact path="/" component={Dish} />
+            <Route exact path="/dish" component={Dish} />
             <UnloggedRoute
               exact
               path="/login"
@@ -106,5 +130,6 @@ const mapStateToProps = (state) => ({
   dishes: state.dishes,
   cart: state.cart,
   message: state.message,
+  error: state.error,
 });
 export default connect(mapStateToProps, { loadUser, loadDishes })(App);

@@ -37,12 +37,6 @@ class Navbar extends Component {
   AuthenticatedLinks() {
     return (
       <Fragment>
-        <li className="nav-item active ">
-          <Link to="/" className="nav-link" href="#">
-            Dish <span className="sr-only">(current)</span>
-          </Link>
-        </li>
-
         {this.state.isAdmin === true ? (
           <li className="nav-item">
             <Link to="/administration" className=" nav-link">
@@ -78,11 +72,6 @@ class Navbar extends Component {
   UnauthenticatedLinks() {
     return (
       <Fragment>
-        <li className="nav-item active">
-          <Link to="/" className="nav-link" href="#">
-            Home <span className="sr-only">(current)</span>
-          </Link>
-        </li>
         <li className="nav-item ">
           <Link to="/login" className="nav-link">
             Login
@@ -111,6 +100,11 @@ class Navbar extends Component {
         </button>
         <div className="collapse navbar-collapse " id="navbarNav">
           <ul className="navbar-nav ml-auto">
+            <li className="nav-item">
+              <Link to="/dish" className="nav-link">
+                Menu
+              </Link>
+            </li>
             {this.state.name
               ? this.AuthenticatedLinks()
               : this.UnauthenticatedLinks()}

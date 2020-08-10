@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 import { loginUser } from "../redux/actions/authActions";
 import { clearErrors } from "../redux/actions/errorActions";
 import { Alert } from "reactstrap";
+
 function MyError(props) {
   let errorArray = props.errors;
   console.log(errorArray);
@@ -15,6 +16,7 @@ function MyError(props) {
   ));
   return <ul>{listErrors}</ul>;
 }
+
 class Login extends Component {
   constructor(props) {
     super(props);
@@ -22,32 +24,35 @@ class Login extends Component {
 
     this.handleSubmit = this.handleSubmit.bind(this);
   }
-  componentDidUpdate(prevProps) {
-    let { error } = this.props;
+  // componentDidUpdate(prevProps) {
+  //   let { error } = this.props;
 
-    if (error !== prevProps.error) {
-      if (error.id === "LOGIN_USER_FAILUER") {
-        this.setState({
-          msg: error.msg,
-        });
-        setTimeout(this.props.clearErrors, 3000);
-      } else {
-        this.setState({
-          msg: null,
-        });
-      }
-    }
-  }
+  //   if (error !== prevProps.error) {
+  //     if (error.id === "LOGIN_USER_FAILUER") {
+  //       this.setState({
+  //         msg: error.msg,
+  //       });
+  //       setTimeout(this.props.clearErrors, 3000);
+  //     } else {
+  //       this.setState({
+  //         msg: null,
+  //       });
+  //     }
+  //   }
+  // }
+
   handleSubmit(e) {
     e.preventDefault();
     const { email, password } = this.state;
     const newUser = { email, password };
     this.props.loginUser(newUser);
   }
+
   static propTypes = {
     isAuthenticated: PropTypes.bool,
     error: PropTypes.object.isRequired,
   };
+
   render() {
     return (
       <div>

@@ -21,22 +21,22 @@ class Register extends Component {
 
     this.handleSubmit = this.handleSubmit.bind(this);
   }
-  componentDidUpdate(prevProps) {
-    let { error } = this.props;
-    console.log("p", error);
-    if (error !== prevProps.error) {
-      if (error.id === "REGISTER_USER_FAILURE") {
-        this.setState({
-          msg: error.msg,
-        });
-        setTimeout(this.props.clearErrors, 3000);
-      } else {
-        this.setState({
-          msg: null,
-        });
-      }
-    }
-  }
+  // componentDidUpdate(prevProps) {
+  //   let { error } = this.props;
+  //   console.log("p", error);
+  //   if (error !== prevProps.error) {
+  //     if (error.id === "REGISTER_USER_FAILURE") {
+  //       this.setState({
+  //         msg: error.msg,
+  //       });
+  //       setTimeout(this.props.clearErrors, 3000);
+  //     } else {
+  //       this.setState({
+  //         msg: null,
+  //       });
+  //     }
+  //   }
+  // }
 
   handleSubmit(e) {
     e.preventDefault();

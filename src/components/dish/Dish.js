@@ -23,6 +23,9 @@ class Dish extends Component {
     };
     this.handleOrder = this.handleOrder.bind(this);
   }
+  componentDidMount() {
+    this.props.loadDishes();
+  }
 
   handleOrder(id) {
     if (this.props.isAuthenticated) {
