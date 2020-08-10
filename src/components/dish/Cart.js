@@ -32,10 +32,12 @@ class Cart extends Component {
             {" "}
             <input
               type="number"
+              className="form-control"
               defaultValue={item.quantity}
               min="1"
               value={this.value}
               id={item._id}
+              style={{ maxWidth: "100px" }}
               onChange={(e) => this.handleQuantityChange(e)}
             />{" "}
           </td>
@@ -86,8 +88,11 @@ class Cart extends Component {
           <tbody>{dish}</tbody>
         </table>
         <label>Total Price: {this.props.cart.total}</label>
-        <button className="btn btn-primary" onClick={this.handleSubmitOrder}>
-          BUY
+        <button
+          className="btn btn-primary ml-auto"
+          onClick={this.handleSubmitOrder}
+        >
+          Place Order
         </button>
       </Fragment>
     );

@@ -42,7 +42,7 @@ class Navbar extends Component {
             Dish <span className="sr-only">(current)</span>
           </Link>
         </li>
-        <li className="nav-link">Welcome {this.state.name}</li>
+
         {this.state.isAdmin === true ? (
           <li className="nav-item">
             <Link to="/administration" className=" nav-link">
@@ -55,10 +55,21 @@ class Navbar extends Component {
             Cart
           </Link>
         </li>
+
         <li className="nav-item">
-          <Link to="/" className=" btn btn-danger" onClick={this.handleLogout}>
-            Logout
-          </Link>
+          <div class="dropdown">
+            <Link class=" dropdown-toggle nav-link" data-toggle="dropdown">
+              Welcome {this.state.name}
+              <span class="caret"></span>
+            </Link>
+            <ul class="dropdown-menu">
+              <li className="nav-item">
+                <Link to="/" className="nav-link" onClick={this.handleLogout}>
+                  Logout
+                </Link>
+              </li>
+            </ul>
+          </div>
         </li>
       </Fragment>
     );

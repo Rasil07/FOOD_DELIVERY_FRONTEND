@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { loadDishes } from "../../redux/actions/dishActions";
 import { addDish } from "../../redux/actions/cartActions";
 import FoodImage from "../../img/food.png";
-import styled from "styled-components";
+
 import {
   Button,
   Card,
@@ -39,11 +39,11 @@ class Dish extends Component {
           style={{
             width: "15rem",
             margin: "1.5rem",
-            borderRadius: "1rem",
+            borderRadius: "1.6rem",
             alignItems: "center",
           }}
         >
-          <CardImg variant="top" src={FoodImage} />
+          <CardImg src={FoodImage} height="120px" width="150px" />
           <CardBody>
             <CardTitle>
               <strong>Dish:</strong>
@@ -55,10 +55,7 @@ class Dish extends Component {
             <CardText>
               <strong>Price:</strong> {item.price}
             </CardText>
-            <Button
-              variant="primary"
-              onClick={() => this.handleOrder(item._id)}
-            >
+            <Button color="info" onClick={() => this.handleOrder(item._id)}>
               Add to Cart
             </Button>
           </CardBody>
@@ -70,7 +67,6 @@ class Dish extends Component {
   render() {
     return (
       <Fragment>
-        <h2>Our Dishes</h2>
         <div className="row d-flex justify-content-around">
           {this.props.dishes ? this.renderItems() : <li>No dishes found</li>}
         </div>
