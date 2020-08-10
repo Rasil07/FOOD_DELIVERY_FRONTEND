@@ -4,8 +4,7 @@ import {
   SUBMIT_ORDER_OF_CART_REQUEST,
   SUBMIT_ORDER_OF_CART_SUCCESS,
   SUBMIT_ORDER_OF_CART_FAILURE,
-  INCREMENT_NUMBER_OF_DISH_CART,
-  DECREMENT_NUMBER_OF_DISH_CART,
+  CHANGE_QUANTITY_OF_DISH_CART,
   CLEAR_CART,
   LOAD_DISH_TO_CART,
 } from "../actions/types";
@@ -49,6 +48,20 @@ const cartReducer = (state = inititalState, action) => {
         }
       }
     }
+    case CHANGE_QUANTITY_OF_DISH_CART: {
+      const items = state.allItems;
+      const { id, quantity } = action.payload;
+      let itemToBeChanged = items.find((item) => id === item._id);
+      let prevQuantity = itemToBeChanged.quantity;
+
+      let quantityDifference = quantity - prevQuantity;
+      itemToBeChanged.quantity = quantity;
+      let newTotal = state.total + itemToBeChanged.price * quantityDifference;
+      return {
+        ...state,
+        total: newTotal,
+      };
+    }
     case SUBMIT_ORDER_OF_CART_REQUEST:
       return {
         ...state,
@@ -71,25 +84,25 @@ const cartReducer = (state = inititalState, action) => {
         addedItems: [],
         total: 0,
       };
+    //still some tasks remaining
+    case DELETE_DISH_FROM_CART: {
+      const items = state.addedItems;
+      let itemToBeChanged = items.find((item) => action.payload === item._id);
+      let quantityDifference = itemToBeChanged.quantity - 0;
+      let newTotal = state.total - quantityDifference * itemToBeChanged.price;
+      let indexOfItemToBEChanged = items.indexOf(itemToBeChanged);
+      console.log(indexOfItemToBEChanged);
+      let newAddedItemsArray = items.splice(indexOfItemToBEChanged, 1);
+      console.log(newAddedItemsArray);
+      console.log("new total", newTotal);
+      return {
+        ...state,
+        // addedItems: newAddedItemsArray,
+        total: newTotal,
+      };
+    }
     default:
       return state;
   }
 };
 export default cartReducer;
-
-// case ADD_DISH_TO_CART: {
-//     let items = state.allItems;
-//     if (items.length > 0) {
-//       let addedItems = items.find((item) => item._id === action.payload);
-//       let existed_item = state.addedItems.find(
-//         (item) => action.payload === item.id
-//       );
-//     }
-//     if (existed_item) {
-//       addedItem.quantity += 1;
-//       return {
-//         ...state,
-//         total: state.total + addedItem.price,
-//       };
-//     }
-//   }

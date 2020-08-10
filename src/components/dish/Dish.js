@@ -3,9 +3,16 @@ import { connect } from "react-redux";
 import { loadDishes } from "../../redux/actions/dishActions";
 import { addDish } from "../../redux/actions/cartActions";
 import FoodImage from "../../img/food.png";
-// import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
+import styled from "styled-components";
+import {
+  Button,
+  Card,
+  CardBody,
+  CardTitle,
+  CardImg,
+  CardText,
+} from "reactstrap";
 import history from "../../utils/history";
-import Cart from "./Cart";
 
 class Dish extends Component {
   constructor(props) {
@@ -27,44 +34,47 @@ class Dish extends Component {
   renderItems = () => {
     const data = this.props.dishes;
     const mapData = data.map((item, index) => (
-      <Fragment key={item.id}>
-        <div className="card" style={{ width: "200px", margin: "" }}>
-          <img className="card-img-top" src={FoodImage} alt="Card image cap" />
-          <div className="card-body">
-            <h8 className="card-title">
-              Name:<strong>{item.name}</strong>
-            </h8>
-            <p className="card-text">
-              Price: <strong>{item.price}</strong>
-            </p>
-          </div>
-          <button
-            className="btn btn-primary"
-            onClick={() => this.handleOrder(item._id)}
-          >
-            Order
-          </button>
-        </div>
+      <Fragment key={item._id}>
+        <Card
+          style={{
+            width: "15rem",
+            margin: "1.5rem",
+            borderRadius: "1rem",
+            alignItems: "center",
+          }}
+        >
+          <CardImg variant="top" src={FoodImage} />
+          <CardBody>
+            <CardTitle>
+              <strong>Dish:</strong>
+              {item.name}
+            </CardTitle>
+            <CardText>
+              <strong>Category:</strong> {item.category}
+            </CardText>
+            <CardText>
+              <strong>Price:</strong> {item.price}
+            </CardText>
+            <Button
+              variant="primary"
+              onClick={() => this.handleOrder(item._id)}
+            >
+              Add to Cart
+            </Button>
+          </CardBody>
+        </Card>
       </Fragment>
     ));
     return mapData;
   };
   render() {
     return (
-      <div
-        className="container"
-        style={{ display: "flex", justifyContent: "space-around" }}
-      >
-        <div
-          className="container"
-          style={{ display: "flex", justifyContent: "space-around" }}
-        >
+      <Fragment>
+        <h2>Our Dishes</h2>
+        <div className="row d-flex justify-content-around">
           {this.props.dishes ? this.renderItems() : <li>No dishes found</li>}
         </div>
-        <div className="container" style={{ width: "20%" }}>
-          <Cart />
-        </div>
-      </div>
+      </Fragment>
     );
   }
 }

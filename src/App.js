@@ -1,13 +1,27 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
+
 import "bootstrap/dist/css/bootstrap.min.css";
+
 import "bootstrap/dist/js/bootstrap.bundle";
+
 import Login from "./components/Login";
+
 import Dish from "./components/dish/Dish";
+
 import Navbar from "./components/Navbar";
-import { Router, Route, Switch, Redirect } from "react-router-dom";
+
+import { Router, Route, Switch } from "react-router-dom";
+
 import Register from "./components/Register";
-import { PrivateRoute } from "./components/PrivateRoute.jsx";
+
+import { AdminPrivateRoute } from "./components/AdminPrivateRoute.jsx";
+
+import { UnloggedRoute } from "./components/UnloggedRoute.jsx";
+
+import { LoggedRoute } from "./components/loggedRoute.jsx";
+
 import history from "./utils/history";
+
 import { loadUser } from "./redux/actions/authActions";
 
 import { loadDishes } from "./redux/actions/dishActions";
@@ -19,6 +33,8 @@ import Unauthorized from "./components/Unauthorized";
 import { connect } from "react-redux";
 
 import { Alert } from "reactstrap";
+
+import Cart from "./components/dish/Cart";
 
 function Message(props) {
   let message = props.message.message;
@@ -38,19 +54,30 @@ class App extends Component {
 
   render() {
     return (
-      <Router history={history}>
+      <Fragment>
         <Navbar />
+
         {this.props.message.message ? (
           <Message message={this.props.message} />
         ) : null}
-        <div className="container">
+        <div className="container-fluid">
           <Switch>
             <Route exact path="/" component={Dish} />
-            <Route exact path="/login" component={Login} />
+            <UnloggedRoute
+              exact
+              path="/login"
+              component={Login}
+              isAuthenticated={this.props.isAuthenticated}
+            />
 
-            <Route exact path="/register" component={Register} />
+            <UnloggedRoute
+              exact
+              path="/register"
+              component={Register}
+              isAuthenticated={this.props.isAuthenticated}
+            />
 
-            <PrivateRoute
+            <AdminPrivateRoute
               exact
               path="/administration"
               component={Adminpanel}
@@ -58,10 +85,17 @@ class App extends Component {
               {...this.props}
             />
 
+            <LoggedRoute
+              exact
+              path="/cart"
+              component={Cart}
+              isAuthenticated={this.props.isAuthenticated}
+            />
+
             <Route exact path="/unauthorized" component={Unauthorized} />
           </Switch>
         </div>
-      </Router>
+      </Fragment>
     );
   }
 }

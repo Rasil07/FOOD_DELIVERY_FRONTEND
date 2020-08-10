@@ -1,7 +1,8 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { logout } from "../redux/actions/authActions";
+
 class Navbar extends Component {
   constructor(props) {
     super(props);
@@ -12,6 +13,7 @@ class Navbar extends Component {
     };
     this.handleLogout = this.handleLogout.bind(this);
   }
+
   handleLogout(e) {
     this.setState({
       name: "",
@@ -20,6 +22,7 @@ class Navbar extends Component {
     });
     this.props.logout();
   }
+
   componentDidUpdate(prevProps) {
     let { user } = this.props;
     if (user !== prevProps.user && user != null) {
@@ -30,12 +33,13 @@ class Navbar extends Component {
       });
     }
   }
+
   AuthenticatedLinks() {
     return (
-      <ul className="navbar-nav ">
-        <li className="nav-item active">
+      <Fragment>
+        <li className="nav-item active ">
           <Link to="/" className="nav-link" href="#">
-            Home <span className="sr-only">(current)</span>
+            Dish <span className="sr-only">(current)</span>
           </Link>
         </li>
         <li className="nav-link">Welcome {this.state.name}</li>
@@ -46,17 +50,23 @@ class Navbar extends Component {
             </Link>
           </li>
         ) : null}
+        <li className="nav-item ">
+          <Link to="/cart" className="nav-link">
+            Cart
+          </Link>
+        </li>
         <li className="nav-item">
           <Link to="/" className=" btn btn-danger" onClick={this.handleLogout}>
             Logout
           </Link>
         </li>
-      </ul>
+      </Fragment>
     );
   }
+
   UnauthenticatedLinks() {
     return (
-      <ul className="navbar-nav">
+      <Fragment>
         <li className="nav-item active">
           <Link to="/" className="nav-link" href="#">
             Home <span className="sr-only">(current)</span>
@@ -67,13 +77,14 @@ class Navbar extends Component {
             Login
           </Link>
         </li>
-      </ul>
+      </Fragment>
     );
   }
+
   render() {
     return (
-      <nav className="navbar navbar-expand-lg navbar-light bg-light">
-        <Link to="/" className="navbar-brand">
+      <nav className="navbar navbar-expand-lg navbar-light bg-light ">
+        <Link to="/" className="navbar-brand ">
           Food Delivery
         </Link>
         <button
@@ -87,8 +98,8 @@ class Navbar extends Component {
         >
           <span className="navbar-toggler-icon"></span>
         </button>
-        <div className="collapse navbar-collapse" id="navbarNav">
-          <ul className="navbar-nav">
+        <div className="collapse navbar-collapse " id="navbarNav">
+          <ul className="navbar-nav ml-auto">
             {this.state.name
               ? this.AuthenticatedLinks()
               : this.UnauthenticatedLinks()}

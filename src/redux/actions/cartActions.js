@@ -4,16 +4,16 @@ import {
   SUBMIT_ORDER_OF_CART_REQUEST,
   SUBMIT_ORDER_OF_CART_SUCCESS,
   SUBMIT_ORDER_OF_CART_FAILURE,
-  INCREMENT_NUMBER_OF_DISH_CART,
-  DECREMENT_NUMBER_OF_DISH_CART,
+  CHANGE_QUANTITY_OF_DISH_CART,
   CLEAR_CART,
   LOAD_DISH_TO_CART,
   GET_ERRORS,
 } from "./types";
 import { getResponseMessage, clearMessage } from "./messageActions";
 import { returnError, clearErrors } from "./errorActions";
-import { tokenConfig } from "../../utils/tokenConfig";
+
 import axios from "axios";
+
 export const addDish = (id) => {
   return {
     type: ADD_DISH_TO_CART,
@@ -21,6 +21,19 @@ export const addDish = (id) => {
   };
 };
 
+export const changeItemQuantity = (id, quantity) => {
+  return {
+    type: CHANGE_QUANTITY_OF_DISH_CART,
+    payload: { id, quantity },
+  };
+};
+
+export const deleteItem = (id) => {
+  return {
+    type: DELETE_DISH_FROM_CART,
+    payload: id,
+  };
+};
 export const placeOrder = (allCartItems) => (dispatch, getState) => {
   dispatch({ type: SUBMIT_ORDER_OF_CART_REQUEST });
 

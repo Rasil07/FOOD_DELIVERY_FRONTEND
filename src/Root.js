@@ -9,7 +9,7 @@ class Root extends Component {
     return (
       <Provider store={store}>
         <Router history={history}>
-          <Route path="/" component={App} />
+          <App />
         </Router>
       </Provider>
     );

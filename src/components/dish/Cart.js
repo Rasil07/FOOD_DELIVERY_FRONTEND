@@ -1,12 +1,24 @@
 import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
-import { placeOrder, clearCart } from "../../redux/actions/cartActions";
+import {
+  placeOrder,
+  clearCart,
+  changeItemQuantity,
+  deleteItem,
+} from "../../redux/actions/cartActions";
 class Cart extends Component {
   handleClearOrder = () => {
     this.props.clearCart();
   };
   handleSubmitOrder = () => {
     this.props.placeOrder(this.props.cart);
+  };
+  handleQuantityChange = (e) => {
+    this.props.changeItemQuantity(e.target.id, e.target.value);
+  };
+  handleDeleteItem = (e) => {
+    const id = e.target.value;
+    this.props.deleteItem(id);
   };
   renderCartItems = () => {
     let addedItemList = this.props.cart.addedItems;
@@ -16,8 +28,27 @@ class Cart extends Component {
         <tr>
           <th scope="row">{index + 1}</th>
           <td>{item.name}</td>
-          <td>{item.quantity}</td>
+          <td>
+            {" "}
+            <input
+              type="number"
+              defaultValue={item.quantity}
+              min="1"
+              value={this.value}
+              id={item._id}
+              onChange={(e) => this.handleQuantityChange(e)}
+            />{" "}
+          </td>
           <td>{item.price}</td>
+          <td>
+            <button
+              className="btn btn-danger"
+              value={item._id}
+              onClick={this.handleDeleteItem}
+            >
+              Delete
+            </button>
+          </td>
         </tr>
       );
     }
@@ -49,6 +80,7 @@ class Cart extends Component {
               <th scope="col">Dish</th>
               <th scope="col">Quantity</th>
               <th scope="col">Price</th>
+              <th scope="col">Remove</th>
             </tr>
           </thead>
           <tbody>{dish}</tbody>
@@ -98,4 +130,9 @@ const mapStateToProps = (state) => {
     cart: state.cart,
   };
 };
-export default connect(mapStateToProps, { placeOrder, clearCart })(Cart);
+export default connect(mapStateToProps, {
+  placeOrder,
+  clearCart,
+  changeItemQuantity,
+  deleteItem,
+})(Cart);
