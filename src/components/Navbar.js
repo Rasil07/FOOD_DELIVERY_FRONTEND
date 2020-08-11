@@ -50,20 +50,16 @@ class Navbar extends Component {
           </Link>
         </li>
 
-        <li className="nav-item">
-          <div class="dropdown">
-            <Link class=" dropdown-toggle nav-link" data-toggle="dropdown">
-              Welcome {this.state.name}
-              <span class="caret"></span>
+        <li className=" dropdown nav-item">
+          <Link class=" dropdown-toggle nav-link" data-toggle="dropdown">
+            Welcome {this.state.name}
+            <span className="caret"></span>
+          </Link>
+          <ul class="dropdown-menu">
+            <Link to="/" className="dropdown-item" onClick={this.handleLogout}>
+              Logout
             </Link>
-            <ul class="dropdown-menu">
-              <li className="nav-item">
-                <Link to="/" className="nav-link" onClick={this.handleLogout}>
-                  Logout
-                </Link>
-              </li>
-            </ul>
-          </div>
+          </ul>
         </li>
       </Fragment>
     );

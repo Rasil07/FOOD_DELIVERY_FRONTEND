@@ -10,7 +10,7 @@ import Dish from "./components/dish/Dish";
 
 import Navbar from "./components/Navbar";
 
-import { Router, Route, Switch } from "react-router-dom";
+import { Router, Route, Switch, withRouter } from "react-router-dom";
 
 import Register from "./components/Register";
 
@@ -40,15 +40,9 @@ import ErrorAlerrt from "./components/alerts/ErrorAlert";
 
 import SuccessAlert from "./components/alerts/SuccessAlert";
 
-function Message(props) {
-  let message = props.message.message;
+import styled from "styled-components";
 
-  return (
-    <Alert color="success">
-      <p>{message}</p>
-    </Alert>
-  );
-}
+// import ModalExample from "./components/userAuthModal";
 
 class App extends Component {
   constructor(props) {
@@ -75,48 +69,18 @@ class App extends Component {
     return (
       <Fragment>
         <Navbar />
-        {this.state.msg.length ? (
-          <ErrorAlerrt message={this.props.error.msg} />
-        ) : null}
+        <FoaltingAlert>
+          {this.state.msg && this.state.msg.length > 0 ? (
+            <ErrorAlerrt message={this.props.error.msg} />
+          ) : null}
+          {this.props.message.message.length > 0 ? (
+            <SuccessAlert message={this.props.message.message} />
+          ) : null}
+        </FoaltingAlert>
 
-        <SuccessAlert message={this.props.message} />
-
-        {this.props.message.message ? (
-          <Message message={this.props.message} />
-        ) : null}
-        <div className="container-fluid">
+        <div className="container">
           <Switch>
             <Route exact path="/dish" component={Dish} />
-            <UnloggedRoute
-              exact
-              path="/login"
-              component={Login}
-              isAuthenticated={this.props.isAuthenticated}
-            />
-
-            <UnloggedRoute
-              exact
-              path="/register"
-              component={Register}
-              isAuthenticated={this.props.isAuthenticated}
-            />
-
-            <AdminPrivateRoute
-              exact
-              path="/administration"
-              component={Adminpanel}
-              isAdmin={this.props.isAdmin}
-              {...this.props}
-            />
-
-            <LoggedRoute
-              exact
-              path="/cart"
-              component={Cart}
-              isAuthenticated={this.props.isAuthenticated}
-            />
-
-            <Route exact path="/unauthorized" component={Unauthorized} />
           </Switch>
         </div>
       </Fragment>
@@ -133,3 +97,10 @@ const mapStateToProps = (state) => ({
   error: state.error,
 });
 export default connect(mapStateToProps, { loadUser, loadDishes })(App);
+
+const FoaltingAlert = styled.div`
+  right: 0;
+  position: fixed;
+  padding: 0.8rem;
+  z-index: 9;
+`;

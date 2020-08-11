@@ -1,4 +1,4 @@
-import { Router, Route } from "react-router-dom";
+import { Router } from "react-router-dom";
 import { Provider } from "react-redux";
 import store from "./redux/store";
 import React, { Component } from "react";

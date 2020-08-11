@@ -84,14 +84,16 @@ export const loginUser = ({ email, password }) => (dispatch) => {
       });
 
       let errorMessage = err.response.data.message;
-
+      console.log(errorMessage);
       var val = [];
       for (var key in errorMessage) {
         if (errorMessage.hasOwnProperty(key)) {
           val.push(errorMessage[key].msg);
         }
       }
-      dispatch(returnError(val, err.response.status, "LOGIN_USER_FAILUER"));
+      dispatch(
+        returnError(errorMessage, err.response.status, "LOGIN_USER_FAILUER")
+      );
       setTimeout(() => dispatch(clearErrors()), 3000);
     });
 };
@@ -136,16 +138,18 @@ export const registerUser = ({
       dispatch({
         type: REGISTER_USER_FAILURE,
       });
-      console.log("actions", err.response);
+      // console.log("actions", err.response.data.message);
       let errorMessage = err.response.data.message;
 
-      var val = [];
-      for (var key in errorMessage) {
-        if (errorMessage.hasOwnProperty(key)) {
-          val.push(errorMessage[key].msg);
-        }
-      }
-      dispatch(returnError(val, err.response.status, "REGISTER_USER_FAILURE"));
+      // var val = [];
+      // for (var key in errorMessage) {
+      //   if (errorMessage.hasOwnProperty(key)) {
+      //     val.push(errorMessage[key].msg);
+      //   }
+      // }
+      dispatch(
+        returnError(errorMessage, err.response.status, "REGISTER_USER_FAILURE")
+      );
       setTimeout(() => dispatch(clearErrors()), 3000);
     });
 };

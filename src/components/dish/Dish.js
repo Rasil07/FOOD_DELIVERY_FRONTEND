@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { loadDishes } from "../../redux/actions/dishActions";
 import { addDish } from "../../redux/actions/cartActions";
 import FoodImage from "../../img/food.png";
+import styled, { css } from "styled-components";
 
 import {
   Button,
@@ -70,8 +71,9 @@ class Dish extends Component {
   render() {
     return (
       <Fragment>
-        <div className="row d-flex justify-content-around">
+        <div className="row">
           {this.props.dishes ? this.renderItems() : <li>No dishes found</li>}
+          {/* <DishCardContainer /> */}
         </div>
       </Fragment>
     );
@@ -88,3 +90,16 @@ const mapStateToProps = (state) => {
 };
 
 export default connect(mapStateToProps, { loadDishes, addDish })(Dish);
+
+const DishCardContainer = styled.div`
+  height: 16rem;
+  border: 1px solid magenta;
+  width: 10rem;
+  border-radius: 0.6rem;
+  padding: 0.4rem;
+  background-color: whitesmoke;
+  :hover {
+    height: 16.4rem;
+    width: 10.3rem;
+  }
+`;
