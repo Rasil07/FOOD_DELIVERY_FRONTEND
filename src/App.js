@@ -10,7 +10,7 @@ import Dish from "./components/dish/Dish";
 
 import Navbar from "./components/Navbar";
 
-import { Router, Route, Switch, withRouter } from "react-router-dom";
+import { Route, Switch, withRouter } from "react-router-dom";
 
 import Register from "./components/Register";
 
@@ -42,7 +42,7 @@ import SuccessAlert from "./components/alerts/SuccessAlert";
 
 import styled from "styled-components";
 
-// import ModalExample from "./components/userAuthModal";
+import Home from "./components/Home";
 
 class App extends Component {
   constructor(props) {
@@ -80,7 +80,32 @@ class App extends Component {
 
         <div className="container">
           <Switch>
+            <Route exact path="/" component={Home} />
+            <UnloggedRoute
+              exact
+              path="/login"
+              component={Login}
+              isAuthenticated={this.props.isAuthenticated}
+            />
+            <UnloggedRoute
+              exact
+              path="/register"
+              component={Register}
+              isAuthenticated={this.props.isAuthenticated}
+            />
             <Route exact path="/dish" component={Dish} />
+            <LoggedRoute
+              exact
+              path="/cart"
+              component={Cart}
+              isAuthenticated={this.props.isAuthenticated}
+            />
+            <AdminPrivateRoute
+              exact
+              path="/administration"
+              component={Adminpanel}
+              isAdmin={this.props.isAdmin}
+            />
           </Switch>
         </div>
       </Fragment>
@@ -96,7 +121,9 @@ const mapStateToProps = (state) => ({
   message: state.message,
   error: state.error,
 });
-export default connect(mapStateToProps, { loadUser, loadDishes })(App);
+export default connect(mapStateToProps, { loadUser, loadDishes })(
+  withRouter(App)
+);
 
 const FoaltingAlert = styled.div`
   right: 0;
