@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Alert } from "reactstrap";
-import { registerUser } from "../redux/actions/authActions";
-import { clearErrors } from "../redux/actions/errorActions";
+import { registerUser } from "../../redux/actions/authActions";
+import { clearErrors } from "../../redux/actions/errorActions";
 
 class Register extends Component {
   constructor(props) {

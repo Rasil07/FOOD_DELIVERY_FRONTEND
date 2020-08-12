@@ -4,21 +4,21 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 import "bootstrap/dist/js/bootstrap.bundle";
 
-import Login from "./components/Login";
-
 import Dish from "./components/dish/Dish";
 
 import Navbar from "./components/Navbar";
 
 import { Route, Switch, withRouter } from "react-router-dom";
 
-import Register from "./components/Register";
+import Register from "./components/auth/Register";
 
-import { AdminPrivateRoute } from "./components/AdminPrivateRoute.jsx";
+import Login from "./components/auth/Login";
 
-import { UnloggedRoute } from "./components/UnloggedRoute.jsx";
+import { AdminPrivateRoute } from "./components/routeHandler/AdminPrivateRoute.jsx";
 
-import { LoggedRoute } from "./components/loggedRoute.jsx";
+import { UnloggedRoute } from "./components/routeHandler/UnloggedRoute.jsx";
+
+import { LoggedRoute } from "./components/routeHandler/loggedRoute.jsx";
 
 import history from "./utils/history";
 
