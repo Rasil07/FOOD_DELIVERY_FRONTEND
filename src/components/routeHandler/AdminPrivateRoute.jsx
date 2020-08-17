@@ -1,6 +1,6 @@
 import React from "react";
 import { Route, Redirect } from "react-router-dom";
-
+import Unauthorized from "../badRoutes/unauthorized";
 export const AdminPrivateRoute = ({
   component: Component,
   isAdmin,
@@ -12,11 +12,7 @@ export const AdminPrivateRoute = ({
       if (isAdmin) {
         return <Component {...props} />;
       }
-      return (
-        <Redirect
-          to={{ pathname: "/unauthorized", state: { from: props.location } }}
-        />
-      );
+      return <Unauthorized />;
     }}
   />
 );

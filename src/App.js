@@ -28,7 +28,7 @@ import { loadDishes } from "./redux/actions/dishActions";
 
 import Adminpanel from "./components/admin/Adminpanel";
 
-import Unauthorized from "./components/Unauthorized";
+import Unknown from "./components/badRoutes/unknown";
 
 import { connect } from "react-redux";
 
@@ -44,6 +44,7 @@ import styled from "styled-components";
 
 import Home from "./components/Home";
 
+import "./App.css";
 class App extends Component {
   constructor(props) {
     super(props);
@@ -58,7 +59,6 @@ class App extends Component {
   componentDidUpdate(prevProps) {
     let error = this.props.error;
     if (error !== prevProps.error) {
-      // console.log("New error", error.msg);
       this.setState({
         msg: error.msg,
       });
@@ -69,6 +69,7 @@ class App extends Component {
     return (
       <Fragment>
         <Navbar />
+
         <FoaltingAlert>
           {this.state.msg && this.state.msg.length > 0 ? (
             <ErrorAlerrt message={this.props.error.msg} />
@@ -77,37 +78,34 @@ class App extends Component {
             <SuccessAlert message={this.props.message.message} />
           ) : null}
         </FoaltingAlert>
-
-        <div className="container">
-          <Switch>
-            <Route exact path="/" component={Home} />
-            <UnloggedRoute
-              exact
-              path="/login"
-              component={Login}
-              isAuthenticated={this.props.isAuthenticated}
-            />
-            <UnloggedRoute
-              exact
-              path="/register"
-              component={Register}
-              isAuthenticated={this.props.isAuthenticated}
-            />
-            <Route exact path="/dish" component={Dish} />
-            <LoggedRoute
-              exact
-              path="/cart"
-              component={Cart}
-              isAuthenticated={this.props.isAuthenticated}
-            />
-            <AdminPrivateRoute
-              exact
-              path="/administration"
-              component={Adminpanel}
-              isAdmin={this.props.isAdmin}
-            />
-          </Switch>
-        </div>
+        <Switch>
+          <Route exact path="/" component={Home} />
+          <UnloggedRoute
+            exact
+            path="/login"
+            component={Login}
+            isAuthenticated={this.props.isAuthenticated}
+          />
+          <UnloggedRoute
+            exact
+            path="/register"
+            component={Register}
+            isAuthenticated={this.props.isAuthenticated}
+          />
+          <Route exact path="/dish" component={Dish} />
+          <LoggedRoute
+            exact
+            path="/cart"
+            component={Cart}
+            isAuthenticated={this.props.isAuthenticated}
+          />
+          <AdminPrivateRoute
+            path="/admin"
+            component={Adminpanel}
+            isAdmin={this.props.isAdmin}
+          />
+          <Route path="*" component={Unknown} />
+        </Switch>
       </Fragment>
     );
   }

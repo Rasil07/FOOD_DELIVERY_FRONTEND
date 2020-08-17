@@ -38,7 +38,7 @@ class Login extends Component {
         }}
       >
         <div
-          class="card rounded align-middle"
+          className="card rounded align-middle"
           style={{
             maxWidth: "350px",
             minWidth: "200px",

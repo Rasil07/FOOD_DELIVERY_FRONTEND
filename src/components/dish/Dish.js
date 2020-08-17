@@ -1,9 +1,11 @@
-import React, { Component, Fragment } from "react";
+import React, { Component, Fragment, useState } from "react";
 import { connect } from "react-redux";
 import { loadDishes } from "../../redux/actions/dishActions";
 import { addDish } from "../../redux/actions/cartActions";
 import FoodImage from "../../img/food.png";
 import styled, { css } from "styled-components";
+import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import {
   Button,
@@ -12,42 +14,80 @@ import {
   CardTitle,
   CardImg,
   CardText,
+  ButtonDropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem,
 } from "reactstrap";
-import history from "../../utils/history";
 
 class Dish extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      ordered_items: [],
-    };
+    this.state = {};
     this.handleOrder = this.handleOrder.bind(this);
+    this.handleCategoryChange = this.handleCategoryChange.bind(this);
   }
+
   componentDidMount() {
     this.props.loadDishes();
+  }
+  componentDidUpdate(prevProps) {
+    if (prevProps.dishes !== this.props.dishes) {
+      this.setState({ dishes: this.props.dishes });
+    }
   }
 
   handleOrder(id) {
     if (this.props.isAuthenticated) {
       this.props.addDish(id);
     } else {
-      history.push("/login");
+      this.props.history.push("/login");
     }
   }
-  renderItems = () => {
-    const data = this.props.dishes;
+  handleCategoryChange(category) {
+    const allDishes = this.props.dishes;
+    switch (category) {
+      case true: {
+        const vegDishes = allDishes.filter((dish) => {
+          return dish.category === "Veg";
+        });
+        this.setState({
+          dishes: vegDishes,
+        });
+        return;
+      }
+      case false: {
+        const nonVegDishes = allDishes.filter((dish) => {
+          return dish.category === "Non Veg";
+        });
+        this.setState({
+          dishes: nonVegDishes,
+        });
+        return;
+      }
+      default: {
+        this.setState({
+          dishes: allDishes,
+        });
+        return;
+      }
+    }
+  }
+
+  renderItems = (dishes) => {
+    const data = dishes;
     const mapData = data.map((item, index) => (
       <Fragment key={item._id}>
         <Card
           style={{
-            width: "15rem",
-            margin: "1.5rem",
-            borderRadius: "1.6rem",
+            width: "13rem",
+            borderRadius: "1rem",
             alignItems: "center",
+            margin: ".2rem",
           }}
         >
-          <CardImg src={FoodImage} height="120px" width="150px" />
+          <CardImg src={FoodImage} height="120px" width="120px" />
           <CardBody>
             <CardTitle>
               <strong>Dish:</strong>
@@ -69,12 +109,47 @@ class Dish extends Component {
     return mapData;
   };
   render() {
+    const DropdwonButton = (props) => {
+      const [dropdownOpen, setOpen] = useState(false);
+
+      const toggle = () => setOpen(!dropdownOpen);
+
+      return (
+        <ButtonDropdown isOpen={dropdownOpen} toggle={toggle}>
+          <DropdownToggle caret color="white">
+            Category
+          </DropdownToggle>
+          <DropdownMenu>
+            <DropdownItem onClick={() => this.handleCategoryChange(true)}>
+              Veg
+            </DropdownItem>
+            <DropdownItem divider />
+            <DropdownItem onClick={() => this.handleCategoryChange(false)}>
+              Non Veg
+            </DropdownItem>
+            <DropdownItem divider />
+            <DropdownItem onClick={() => this.handleCategoryChange()}>
+              All
+            </DropdownItem>
+          </DropdownMenu>
+        </ButtonDropdown>
+      );
+    };
     return (
       <Fragment>
-        <div className="row">
-          {this.props.dishes ? this.renderItems() : <li>No dishes found</li>}
-          {/* <DishCardContainer /> */}
-        </div>
+        <Wrapper>
+          <div style={{ margin: "1rem 0 1rem auto", width: "20%" }}>
+            <DropdwonButton />
+          </div>
+
+          {this.state.dishes ? (
+            <DishCardContainer>
+              {this.renderItems(this.state.dishes)}
+            </DishCardContainer>
+          ) : (
+            <li>No dishes found</li>
+          )}
+        </Wrapper>
       </Fragment>
     );
   }
@@ -92,14 +167,16 @@ const mapStateToProps = (state) => {
 export default connect(mapStateToProps, { loadDishes, addDish })(Dish);
 
 const DishCardContainer = styled.div`
-  height: 16rem;
-  border: 1px solid magenta;
-  width: 10rem;
-  border-radius: 0.6rem;
-  padding: 0.4rem;
-  background-color: whitesmoke;
-  :hover {
-    height: 16.4rem;
-    width: 10.3rem;
-  }
+  width: 95%;
+  height: 100%;
+  margin: 1rem auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+`;
+
+const Wrapper = styled.div`
+  position: relative;
+  width: 100%;
+  margin: 0 auto;
 `;

@@ -39,7 +39,7 @@ class Navbar extends Component {
       <Fragment>
         {this.state.isAdmin === true ? (
           <li className="nav-item">
-            <Link to="/administration" className=" nav-link">
+            <Link to="/admin" className=" nav-link">
               AdminPanel
             </Link>
           </li>
@@ -50,12 +50,19 @@ class Navbar extends Component {
           </Link>
         </li>
 
-        <li className=" dropdown nav-item">
+        <li className=" dropdown nav-item" style={{ marginRight: "1.2rem" }}>
           <Link class=" dropdown-toggle nav-link" data-toggle="dropdown">
             Welcome {this.state.name}
             <span className="caret"></span>
           </Link>
-          <ul class="dropdown-menu">
+          <ul
+            class="dropdown-menu"
+            style={{
+              background: "white",
+              border: "none",
+              backgroundColor: "#f8f9fb",
+            }}
+          >
             <Link to="/" className="dropdown-item" onClick={this.handleLogout}>
               Logout
             </Link>
@@ -79,7 +86,7 @@ class Navbar extends Component {
 
   render() {
     return (
-      <nav className="navbar navbar-expand-lg navbar-light bg-light ">
+      <nav className="navbar navbar-expand-lg navbar-light bg-light sticky-top">
         <Link to="/" className="navbar-brand ">
           Food Delivery
         </Link>

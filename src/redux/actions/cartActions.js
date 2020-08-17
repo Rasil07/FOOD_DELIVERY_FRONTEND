@@ -52,21 +52,28 @@ export const placeOrder = (allCartItems) => (dispatch, getState) => {
       setTimeout(() => dispatch(clearCart()), 2000);
     })
     .catch((err) => {
+      console.log("order error", err.response.data.message);
       dispatch({
         type: SUBMIT_ORDER_OF_CART_FAILURE,
       });
 
       let errorMessage = err.response.data.message;
 
-      var val = [];
-      for (var key in errorMessage) {
-        if (errorMessage.hasOwnProperty(key)) {
-          val.push(errorMessage[key].msg);
-        }
-      }
+      // var val = [];
+      // for (var key in errorMessage) {
+      //   if (errorMessage.hasOwnProperty(key)) {
+      //     val.push(errorMessage[key].msg);
+      //   }
+      // }
+      // console.log("val", val);
       dispatch(
-        returnError(val, err.response.status, "SUBMIT_ORDER_OF_CART_FAILURE")
+        returnError(
+          errorMessage,
+          err.response.status,
+          "SUBMIT_ORDER_OF_CART_FAILURE"
+        )
       );
+      setTimeout(() => dispatch(clearErrors()), 2000);
     });
 };
 
