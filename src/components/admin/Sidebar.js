@@ -2,6 +2,15 @@ import React, { useState, Fragment } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { useSpring, animated } from "react-spring";
+import { LI } from "../../styles/MainStyles";
+import {
+  faArrowRight,
+  faArrowLeft,
+  faChartArea,
+  faUtensils,
+  faCashRegister,
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export default function Sidebar(props) {
   const { match } = props.props;
@@ -10,19 +19,60 @@ export default function Sidebar(props) {
     <Fragment>
       <SidebarContainer toggled={toggled}>
         <SidebarHeaderContainer>
-          <SidebarHeading>Food Delivery</SidebarHeading>
           <SidebarToggler onClick={() => setToggle(!toggled)}>
-            Toggle
+            {toggled ? (
+              <FontAwesomeIcon icon={faArrowRight} />
+            ) : (
+              <FontAwesomeIcon icon={faArrowLeft} />
+            )}
           </SidebarToggler>
         </SidebarHeaderContainer>
         <SidebarUl>
-          <SidebarListContainer>
-            <Link to={`${match.url}/dashboard`}>Dashboard</Link>
-
-            <Link to={`${match.url}/dish`}>Dish</Link>
-
-            <Link to={`${match.url}/order`}>Order</Link>
-          </SidebarListContainer>
+          {!toggled ? (
+            <Fragment>
+              <SidebarListContainer>
+                <LI size="20px">
+                  <Anchor to={`${match.url}`}>
+                    <FontAwesomeIcon icon={faChartArea} />
+                    <span>&nbsp;</span>
+                    Dashboard
+                  </Anchor>
+                </LI>
+                <LI size="20px">
+                  <Anchor to={`${match.url}/dish`}>
+                    <FontAwesomeIcon icon={faUtensils} />
+                    <span>&nbsp;</span>
+                    Dish
+                  </Anchor>
+                </LI>
+                <LI size="20px">
+                  <Anchor to={`${match.url}/order`}>
+                    <FontAwesomeIcon icon={faCashRegister} />
+                    <span>&nbsp;</span>
+                    Order
+                  </Anchor>
+                </LI>
+              </SidebarListContainer>
+            </Fragment>
+          ) : (
+            <SidebarListContainerToggeled>
+              <LI size="20px">
+                <Link to={`${match.url}`}>
+                  <FontAwesomeIcon icon={faChartArea} />
+                </Link>
+              </LI>
+              <LI size="20px">
+                <Link to={`${match.url}/dish`}>
+                  <FontAwesomeIcon icon={faUtensils} />
+                </Link>
+              </LI>
+              <LI size="20px">
+                <Link to={`${match.url}/order`}>
+                  <FontAwesomeIcon icon={faCashRegister} />
+                </Link>
+              </LI>
+            </SidebarListContainerToggeled>
+          )}
         </SidebarUl>
       </SidebarContainer>
     </Fragment>
@@ -32,14 +82,14 @@ export default function Sidebar(props) {
 const SidebarContainer = styled.div`
   position: relative;
   left: 0;
-  top: 0;
   display: flex;
   width: 20%;
+  border-right: 1px groove #e1e1e1;
   flex-direction: column;
   background-color: #ffffff;
   color: #5e5c6c;
-  border: 1px solid magenta;
   height: 100%;
+  overflow-y: scroll;
   transition-property: width;
   transition-duration: 0.5s;
   ${({ toggled }) =>
@@ -47,56 +97,64 @@ const SidebarContainer = styled.div`
     `
     width: 6%
   `};
-`;
+  &::-webkit-scrollbar {
+    width: 0.5em;
+  }
 
-// const AniamtedSidebar = animated(SidebarContainer);
+  &::-webkit-scrollbar-thumb {
+    background-color: darkgrey;
+    outline: 1px solid slategrey;
+  }
+`;
+const Anchor = styled(Link)`
+  &:hover {
+    text-decoration: none;
+  }
+`;
 
 const SidebarHeaderContainer = styled.div`
-  height: 9rem;
-  width: 100%;
-  background-color: #e9f1f4;
+  height: 10%;
+  width: 100%;  
   padding: 0.3rem 1rem;
   display flex;
-
 `;
-
-const SidebarHeading = styled.div`
-  font-size: 1.2rem;
-`;
-
 const SidebarListContainer = styled.div`
   font-size: 1rem;
-  padding: 0;
-  border: 1px solid yellow;
+  padding: 1rem;
   display: flex;
   flex-direction: column;
+  justify-content: center;
+`;
+
+const SidebarListContainerToggeled = styled.div`
+  font-size: 1rem;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 `;
 
 const SidebarUl = styled.ul`
   padding: 0;
   list-style: none;
-  line-height: 3rem;
+  line-height: 4rem;
 `;
 
-const SidebarLI = styled.li`
-  border: 1px solid red;
-  padding: 0.2rem 0.3rem;
-  text-decoration: none;
-  a {
-    text-decoration: none;
-    color: #5e5c6c;
-  }
-`;
 const SidebarToggler = styled.button`
   position: absolute;
   right: 1rem;
   width: 4.3rem;
   height: 2.5rem;
-  background-color: white;
-  border: 1px solid grey;
-  border-radius: 0.4rem;
-  font-size: 0.9rem;
-  &:hover {
-    background-color: whitesmoke;
+  border: none;
+  color: #ff7171;
+  font-size: 1.2rem;
+  &:focus {
+    outline: none;
   }
+  &:hover {
+    color: #ffaa71;
+    font-size: 1.4rem;
+  }
+  background-color: white;
 `;

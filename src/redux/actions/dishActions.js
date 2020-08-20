@@ -1,7 +1,7 @@
 import axios from "axios";
 import { returnError, clearErrors } from "./errorActions";
 import history from "../../utils/history";
-
+import { getResponseMessage, clearMessage } from "./messageActions";
 import {
   GET_DISHES_REQUEST,
   GET_DISHES_SUCCESS,
@@ -19,8 +19,29 @@ import {
 } from "./types";
 import { tokenConfig } from "../../utils/tokenConfig";
 
-export const deleteDish = () => (dispatch) => {
-  dispatch({ type: DELETE_DISH_SUCCESS });
+export const deleteDish = (id) => (dispatch, getState) => {
+  dispatch({ type: DELETE_DISH_REQUEST });
+  axios
+    .post(`/dish/delete/${id}`, {
+      headers: {
+        "Content-Type": "application/json",
+        "auth-token": tokenConfig(getState),
+      },
+    })
+    .then((res) => {
+      dispatch({
+        type: DELETE_DISH_SUCCESS,
+      });
+      dispatch(getResponseMessage(res.data.message));
+      setTimeout(() => dispatch(clearMessage()), 2000);
+      dispatch(loadDishes());
+    })
+    .catch((err) => {
+      dispatch({
+        type: DELETE_DISH_FAILURE,
+      });
+      dispatch(returnError(err.response.data.message, err.response.status));
+    });
 };
 
 export const loadDishes = () => (dispatch, getState) => {
@@ -33,7 +54,6 @@ export const loadDishes = () => (dispatch, getState) => {
       },
     })
     .then((res) => {
-      // console.log("response data", res.data.dishes);
       dispatch({
         type: GET_DISHES_SUCCESS,
         payload: res.data.dishes,

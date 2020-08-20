@@ -86,7 +86,10 @@ class Navbar extends Component {
 
   render() {
     return (
-      <nav className="navbar navbar-expand-lg navbar-light bg-light sticky-top">
+      <nav
+        className="navbar navbar-expand-lg navbar-light bg-light sticky-top"
+        style={{ height: "10vh", minHeight: "70px" }}
+      >
         <Link to="/" className="navbar-brand ">
           Food Delivery
         </Link>

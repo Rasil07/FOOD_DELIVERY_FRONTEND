@@ -3,17 +3,20 @@ import { connect } from "react-redux";
 import { loadDishes } from "../../redux/actions/dishActions";
 import { addDish } from "../../redux/actions/cartActions";
 import FoodImage from "../../img/food.png";
-import styled, { css } from "styled-components";
-import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
+import styled from "styled-components";
+import { faCartArrowDown } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
 import {
-  Button,
-  Card,
-  CardBody,
-  CardTitle,
-  CardImg,
-  CardText,
+  DishInfo,
+  AddButton,
+  DishCardContainer,
+  Wrapper,
+  DishCard,
+  DishDetail,
+} from "../../styles/DishStyles";
+
+import { LI } from "../../styles/MainStyles";
+import {
   ButtonDropdown,
   DropdownToggle,
   DropdownMenu,
@@ -34,7 +37,7 @@ class Dish extends Component {
   }
   componentDidUpdate(prevProps) {
     if (prevProps.dishes !== this.props.dishes) {
-      this.setState({ dishes: this.props.dishes });
+      this.setState({ dishes: this.props.dishes, selected: "All" });
     }
   }
 
@@ -54,6 +57,7 @@ class Dish extends Component {
         });
         this.setState({
           dishes: vegDishes,
+          selected: "Veg",
         });
         return;
       }
@@ -63,12 +67,14 @@ class Dish extends Component {
         });
         this.setState({
           dishes: nonVegDishes,
+          selected: "Non Veg",
         });
         return;
       }
       default: {
         this.setState({
           dishes: allDishes,
+          selected: "All",
         });
         return;
       }
@@ -79,31 +85,28 @@ class Dish extends Component {
     const data = dishes;
     const mapData = data.map((item, index) => (
       <Fragment key={item._id}>
-        <Card
-          style={{
-            width: "13rem",
-            borderRadius: "1rem",
-            alignItems: "center",
-            margin: ".2rem",
-          }}
-        >
-          <CardImg src={FoodImage} height="120px" width="120px" />
-          <CardBody>
-            <CardTitle>
-              <strong>Dish:</strong>
-              {item.name}
-            </CardTitle>
-            <CardText>
-              <strong>Category:</strong> {item.category}
-            </CardText>
-            <CardText>
-              <strong>Price:</strong> {item.price}
-            </CardText>
-            <Button color="info" onClick={() => this.handleOrder(item._id)}>
-              Add to Cart
-            </Button>
-          </CardBody>
-        </Card>
+        <DishCard img={FoodImage}>
+          <DishDetail category={item.category}>
+            <AddButton onClick={() => this.handleOrder(item._id)}>
+              <FontAwesomeIcon icon={faCartArrowDown} />
+            </AddButton>
+            <DishInfo>
+              <LI size="18px" weight="600" color="white">
+                {item.name}
+              </LI>
+              <LI color="white">Category: {item.category}</LI>
+              <LI
+                style={{
+                  margin: "0 .5rem 0 auto",
+                  padding: "0 .5rem .5rem 0",
+                }}
+                color="white"
+              >
+                Rs: {item.price}/-
+              </LI>
+            </DishInfo>
+          </DishDetail>
+        </DishCard>
       </Fragment>
     ));
     return mapData;
@@ -138,7 +141,18 @@ class Dish extends Component {
     return (
       <Fragment>
         <Wrapper>
-          <div style={{ margin: "1rem 0 1rem auto", width: "20%" }}>
+          <div
+            style={{
+              margin: "1rem 1.4rem 1rem auto",
+              width: "30%",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-around",
+            }}
+          >
+            <LI>
+              Selected: <span>{this.state.selected}</span>
+            </LI>
             <DropdwonButton />
           </div>
 
@@ -165,18 +179,3 @@ const mapStateToProps = (state) => {
 };
 
 export default connect(mapStateToProps, { loadDishes, addDish })(Dish);
-
-const DishCardContainer = styled.div`
-  width: 95%;
-  height: 100%;
-  margin: 1rem auto;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
-`;
-
-const Wrapper = styled.div`
-  position: relative;
-  width: 100%;
-  margin: 0 auto;
-`;

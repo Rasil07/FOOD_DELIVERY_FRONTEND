@@ -4,6 +4,25 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  FlexRowDiv,
+  BillActionButton,
+  BillDetailsContainer,
+  CartWarpper,
+  OrderWrapper,
+  ItemContainer,
+  ImageContainer,
+  DishDetailConatiner,
+  DishDetail,
+  DishField,
+  DishName,
+  DishAction,
+  BillContainer,
+  CheckoutButton,
+  ActionButton,
+} from "../../styles/CartStyles";
+
+import { LI } from "../../styles/MainStyles";
 
 import FoodImage from "../../img/food.png";
 import {
@@ -199,138 +218,3 @@ export default connect(mapStateToProps, {
   changeItemQuantity,
   deleteItem,
 })(Cart);
-
-const LI = styled.li`
-  font-size: ${(props) => (props.size ? props.size : "1rem")};
-  list-style: none;
-  font-weight: ${(props) => (props.weight ? props.weight : "normal")};
-`;
-
-const FlexRowDiv = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  padding: 0 0.5rem;
-  ${(props) =>
-    props.border
-      ? {
-          borderWidth: props.border,
-          borderRight: "none",
-          borderLeft: "none",
-          borderStyle: props.borderStyle ? props.borderStyle : "none",
-        }
-      : null}
-`;
-
-const BillActionButton = styled.div`
-  height: 15%;
-  width: 100%;
-  display: flex;
-`;
-const BillDetailsContainer = styled.div`
-  height: 60%;
-  width: 100%;
-  background-color: #f4f5f7;
-  overflow-y: scroll;
-`;
-
-const CartWarpper = styled.div`
-  width: 90%;
-  margin: 2rem auto;
-  padding: 0 2rem;
-  display: flex;
-
-  justify-content: space-between;
-`;
-
-const OrderWrapper = styled.div`
-  width: 65%;
-  height: 500px;
-  overflow-y: scroll;
-  overflow-x: hidden;
-`;
-
-const ItemContainer = styled.div`
-  width: 100%;
-  height: 150px;
-  display: flex;
-  flex-direction: row;
-  padding: 0.4rem;
-  margin: 0.3rem;
-`;
-
-const ImageContainer = styled.img`
-  width: 100px;
-  height: 100px;
-  background-color: whitesmoke;
-  border-radius: 70px;
-`;
-
-const DishDetailConatiner = styled.div`
-  margin-left: 1rem;
-  display: flex;
-  flex-direction: column;
-  width: 60%;
-`;
-
-const DishDetail = styled.div`
-  margin-top: 0.7rem;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-`;
-const DishField = styled.div`
-  width: 100px;
-  flex-basis: 33%;
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  padding: 0.5rem;
-  align-items: start;
-`;
-const DishName = styled.li`
-  font-size: 1rem;
-  font-weight: 600;
-  list-style: none;
-`;
-
-const DishAction = styled.div`
-  width: 20%;
-  margin-left: 1.2rem;
-`;
-const BillContainer = styled.div`
-  width: 33%;
-  height: 30%;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  padding: 0.8rem;
-
-  border-radius: 12px;
-`;
-
-const CheckoutButton = styled.button`
-  width: 50%;
-  background-color: #672497;
-  height: 3rem;
-  border-radius: 0.6rem;
-  color: white;
-  border: none;
-  &: hover {
-    background-color: #c0abd4;
-  }
-`;
-const ActionButton = styled.button`
-  float: right;
-  background-color: ${(props) =>
-    props.background ? props.background : "transparent"};
-  color: white;
-  &:hover {
-    color: whitesmoke;
-  }
-  border: none;
-  border-radius: 7px;
-  padding: 0.3rem 0.5rem;
-`;

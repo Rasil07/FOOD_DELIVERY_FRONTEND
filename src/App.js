@@ -67,9 +67,8 @@ class App extends Component {
 
   render() {
     return (
-      <Fragment>
+      <BodyWrapper>
         <Navbar />
-
         <FoaltingAlert>
           {this.state.msg && this.state.msg.length > 0 ? (
             <ErrorAlerrt message={this.props.error.msg} />
@@ -106,7 +105,7 @@ class App extends Component {
           />
           <Route path="*" component={Unknown} />
         </Switch>
-      </Fragment>
+      </BodyWrapper>
     );
   }
 }
@@ -128,4 +127,10 @@ const FoaltingAlert = styled.div`
   position: fixed;
   padding: 0.8rem;
   z-index: 9;
+`;
+const BodyWrapper = styled.div`
+  width: 100%;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
 `;
