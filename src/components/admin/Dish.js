@@ -14,18 +14,15 @@ import { loadDishes, deleteDish } from "../../redux/actions/dishActions";
 import { FlexRowDiv, ActionButton } from "../../styles/CartStyles";
 import { faTimes, faEdit } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import DeleteDishModal from "./modals/dish/deleteDishModal";
 class Dish extends Component {
   constructor(props) {
     super(props);
-    this.handleDeleteDish = this.handleDeleteDish.bind(this);
   }
   componentDidMount() {
     this.props.loadDishes();
   }
-  handleDeleteDish(id) {
-    // console.log(id);
-    this.props.deleteDish(id);
-  }
+
   renderDishList() {
     const allDishes = this.props.dishes;
     const dish = allDishes.map((item, index) => (
@@ -41,12 +38,7 @@ class Dish extends Component {
         </td>
         <td>
           {" "}
-          <ActionButton
-            background="#e8505b"
-            onClick={() => this.handleDeleteDish(item._id)}
-          >
-            <FontAwesomeIcon icon={faTimes} />
-          </ActionButton>
+          <DeleteDishModal item={item} />
         </td>
       </tr>
     ));
