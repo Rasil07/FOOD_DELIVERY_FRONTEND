@@ -19,6 +19,28 @@ import {
 } from "./types";
 import { tokenConfig } from "../../utils/tokenConfig";
 
+export const addDish = (data) => (dispatch, getState) => {
+  dispatch({
+    type: ADD_DISH_REQUEST,
+  });
+  axios
+    .post("/dish/add", data, {})
+    .then((res) => {
+      dispatch(getResponseMessage(res.data.message));
+      setTimeout(() => dispatch(clearMessage()), 2000);
+      dispatch({
+        type: ADD_DISH_SUCCESS,
+      });
+      dispatch(loadDishes());
+    })
+    .catch((err) => {
+      dispatch({
+        type: ADD_DISH_FAILURE,
+      });
+      dispatch(returnError(err.response.data.message, err.response.status));
+    });
+};
+
 export const deleteDish = (id) => (dispatch, getState) => {
   dispatch({ type: DELETE_DISH_REQUEST });
   axios

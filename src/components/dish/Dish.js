@@ -85,7 +85,7 @@ class Dish extends Component {
     const data = dishes;
     const mapData = data.map((item, index) => (
       <Fragment key={item._id}>
-        <DishCard img={FoodImage}>
+        <DishCard img={item.image}>
           <DishDetail category={item.category}>
             <AddButton onClick={() => this.handleOrder(item._id)}>
               <FontAwesomeIcon icon={faCartArrowDown} />
