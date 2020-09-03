@@ -11,41 +11,47 @@ import {
   Input,
   FormText,
 } from "reactstrap";
-
+import { ActionButton } from "../../../../styles/CartStyles";
+import { faEdit } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useDispatch } from "react-redux";
-import { addDish } from "../../../../redux/actions/dishActions";
+import { editDish } from "../../../../redux/actions/dishActions";
 
-const AddDishModal = (props) => {
-  const { buttonLabel, className } = props;
-  const dispatch = useDispatch();
+const EditDishModal = (props) => {
   const [modal, setModal] = useState(false);
-  const [name, setName] = useState("");
-  const [category, setCategory] = useState("Veg");
-  const [price, setPrice] = useState("");
-  const [image, setImage] = useState("");
 
   const toggle = () => setModal(!modal);
+
+  const dispatch = useDispatch();
+
+  const [name, setName] = useState(`${props.item.name}`);
+  const [category, setCategory] = useState(`${props.item.category}`);
+  const [price, setPrice] = useState(`${props.item.price}`);
+  const [image, setImage] = useState("");
   const handleSubmit = (e) => {
+    // console.log(name, price, category, image);
     e.preventDefault();
     const data = new FormData();
     data.append("name", name);
     data.append("category", category);
     data.append("price", price);
     data.append("image", image);
-    dispatch(addDish(data));
-    setCategory("Veg");
-    setName("");
-    setPrice("");
+    console.log("data", data);
+    dispatch(editDish(props.item._id, data));
+    setCategory(`${props.item.category}`);
+    setName(`${props.item.name}`);
+    setPrice(`${props.item.price}`);
     setImage("");
     toggle();
   };
+
   return (
     <div>
-      <Button color="primary" onClick={toggle}>
-        Add Dish
-      </Button>
+      <ActionButton background="#febf63" onClick={toggle}>
+        <FontAwesomeIcon icon={faEdit} />
+      </ActionButton>
       <Modal isOpen={modal} toggle={toggle}>
-        <ModalHeader toggle={toggle}>Add New Dish</ModalHeader>
+        <ModalHeader toggle={toggle}>Edit</ModalHeader>
         <ModalBody>
           <Form>
             <FormGroup>
@@ -53,6 +59,7 @@ const AddDishModal = (props) => {
               <Input
                 type="text"
                 name="dishName"
+                defaultValue={props.item.name}
                 placeholder="Enter dish name"
                 onChange={(e) => {
                   const { value } = e.target;
@@ -66,6 +73,7 @@ const AddDishModal = (props) => {
                 type="select"
                 name="select"
                 id="exampleSelect"
+                defaultValue={props.item.category}
                 onChange={(e) => {
                   const { value } = e.target;
                   setCategory(value);
@@ -80,6 +88,7 @@ const AddDishModal = (props) => {
               <Input
                 type="number"
                 name="dishPrice"
+                defaultValue={props.item.price}
                 placeholder="Enter dish price"
                 onChange={(e) => {
                   const { value } = e.target;
@@ -88,6 +97,10 @@ const AddDishModal = (props) => {
               />
             </FormGroup>
             <FormGroup>
+              <img
+                src={props.item.image}
+                style={{ width: "100px", height: "100px" }}
+              />
               <Label>Photo</Label>
               <Input
                 type="file"
@@ -101,8 +114,8 @@ const AddDishModal = (props) => {
           </Form>
         </ModalBody>
         <ModalFooter>
-          <Button color="primary" onClick={handleSubmit}>
-            Confirm
+          <Button color="warning" onClick={handleSubmit}>
+            Edit
           </Button>{" "}
           <Button color="secondary" onClick={toggle}>
             Cancel
@@ -113,4 +126,4 @@ const AddDishModal = (props) => {
   );
 };
 
-export default AddDishModal;
+export default EditDishModal;

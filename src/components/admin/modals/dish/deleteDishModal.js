@@ -38,7 +38,7 @@ const DeleteDishModal = (props) => {
         <ModalFooter>
           <Button
             color="danger"
-            onClick={() => (dispatch(deleteDish(props.item._id)), toggle)}
+            onClick={() => (dispatch(deleteDish(props.item._id)), toggle())}
           >
             Delete
           </Button>{" "}

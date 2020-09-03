@@ -15,6 +15,8 @@ import { FlexRowDiv, ActionButton } from "../../styles/CartStyles";
 import { faTimes, faEdit } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import DeleteDishModal from "./modals/dish/deleteDishModal";
+import EditDishModal from "./modals/dish/editDishModal";
+
 class Dish extends Component {
   constructor(props) {
     super(props);
@@ -32,9 +34,7 @@ class Dish extends Component {
         <td>{item.category}</td>
         <td>{item.price}</td>
         <td>
-          <ActionButton background="#febf63">
-            <FontAwesomeIcon icon={faEdit} />{" "}
-          </ActionButton>
+          <EditDishModal item={item} />
         </td>
         <td>
           {" "}
@@ -58,7 +58,7 @@ class Dish extends Component {
                 <th>Dish</th>
                 <th>Category</th>
                 <th>Price</th>
-                <th colspan="2">Actions</th>
+                <th>Actions</th>
               </tr>
             </thead>
             <tbody>

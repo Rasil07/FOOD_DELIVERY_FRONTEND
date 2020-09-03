@@ -24,7 +24,12 @@ export const addDish = (data) => (dispatch, getState) => {
     type: ADD_DISH_REQUEST,
   });
   axios
-    .post("/dish/add", data, {})
+    .post("/dish/add", data, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        "auth-token": tokenConfig(getState),
+      },
+    })
     .then((res) => {
       dispatch(getResponseMessage(res.data.message));
       setTimeout(() => dispatch(clearMessage()), 2000);
@@ -38,6 +43,36 @@ export const addDish = (data) => (dispatch, getState) => {
         type: ADD_DISH_FAILURE,
       });
       dispatch(returnError(err.response.data.message, err.response.status));
+      setTimeout(() => dispatch(clearErrors()), 3000);
+    });
+};
+
+export const editDish = (id, data) => (dispatch, getState) => {
+  console.log(id, data);
+  dispatch({
+    type: EDIT_DISH_REQUEST,
+  });
+  axios
+    .post(`/dish/edit/${id}`, data, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        "auth-token": tokenConfig(getState),
+      },
+    })
+    .then((res) => {
+      dispatch(getResponseMessage(res.data.message));
+      setTimeout(() => dispatch(clearMessage()), 2000);
+      dispatch({
+        type: EDIT_DISH_SUCCESS,
+      });
+      dispatch(loadDishes());
+    })
+    .catch((err) => {
+      dispatch({
+        type: EDIT_DISH_FAILURE,
+      });
+      dispatch(returnError(err.response.data.message, err.response.status));
+      setTimeout(() => dispatch(clearErrors()), 3000);
     });
 };
 
@@ -63,6 +98,7 @@ export const deleteDish = (id) => (dispatch, getState) => {
         type: DELETE_DISH_FAILURE,
       });
       dispatch(returnError(err.response.data.message, err.response.status));
+      setTimeout(() => dispatch(clearErrors()), 3000);
     });
 };
 
