@@ -91,13 +91,11 @@ const cartReducer = (state = inititalState, action) => {
       let quantityDifference = itemToBeChanged.quantity - 0;
       let newTotal = state.total - quantityDifference * itemToBeChanged.price;
       let indexOfItemToBEChanged = items.indexOf(itemToBeChanged);
-      console.log(indexOfItemToBEChanged);
+
       let newAddedItemsArray = items.splice(indexOfItemToBEChanged, 1);
-      console.log(newAddedItemsArray);
-      console.log("new total", newTotal);
+
       return {
         ...state,
-        // addedItems: newAddedItemsArray,
         total: newTotal,
       };
     }

@@ -51,12 +51,16 @@ class Navbar extends Component {
         </li>
 
         <li className=" dropdown nav-item" style={{ marginRight: "1.2rem" }}>
-          <Link class=" dropdown-toggle nav-link" data-toggle="dropdown">
+          <Link
+            to="/"
+            className=" dropdown-toggle nav-link"
+            data-toggle="dropdown"
+          >
             Welcome {this.state.name}
             <span className="caret"></span>
           </Link>
           <ul
-            class="dropdown-menu"
+            className="dropdown-menu"
             style={{
               background: "white",
               border: "none",

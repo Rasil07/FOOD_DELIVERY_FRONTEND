@@ -13,6 +13,7 @@ import { getResponseMessage, clearMessage } from "./messageActions";
 import { returnError, clearErrors } from "./errorActions";
 
 import axios from "axios";
+import { tokenConfig } from "../../utils/tokenConfig";
 
 export const addDish = (id) => {
   return {
@@ -38,11 +39,20 @@ export const placeOrder = (allCartItems) => (dispatch, getState) => {
   dispatch({ type: SUBMIT_ORDER_OF_CART_REQUEST });
 
   axios
-    .post("/order", {
-      user_id: getState().auth.user.decoded.data.id,
-      items: allCartItems.addedItems,
-      totalPrice: getState().cart.total,
-    })
+    .post(
+      "/order",
+      {
+        user_id: getState().auth.user.decoded.data.id,
+        items: allCartItems.addedItems,
+        totalPrice: getState().cart.total,
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+          "auth-token": tokenConfig(getState),
+        },
+      }
+    )
     .then((res) => {
       dispatch({
         type: SUBMIT_ORDER_OF_CART_SUCCESS,
@@ -52,27 +62,13 @@ export const placeOrder = (allCartItems) => (dispatch, getState) => {
       setTimeout(() => dispatch(clearCart()), 2000);
     })
     .catch((err) => {
-      console.log("order error", err.response.data.message);
       dispatch({
         type: SUBMIT_ORDER_OF_CART_FAILURE,
       });
 
       let errorMessage = err.response.data.message;
 
-      // var val = [];
-      // for (var key in errorMessage) {
-      //   if (errorMessage.hasOwnProperty(key)) {
-      //     val.push(errorMessage[key].msg);
-      //   }
-      // }
-      // console.log("val", val);
-      dispatch(
-        returnError(
-          errorMessage,
-          err.response.status,
-          "SUBMIT_ORDER_OF_CART_FAILURE"
-        )
-      );
+      dispatch(returnError(errorMessage, err.response.status));
       setTimeout(() => dispatch(clearErrors()), 2000);
     });
 };

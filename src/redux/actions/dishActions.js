@@ -1,6 +1,6 @@
 import axios from "axios";
 import { returnError, clearErrors } from "./errorActions";
-import history from "../../utils/history";
+
 import { getResponseMessage, clearMessage } from "./messageActions";
 import {
   GET_DISHES_REQUEST,
@@ -48,7 +48,6 @@ export const addDish = (data) => (dispatch, getState) => {
 };
 
 export const editDish = (id, data) => (dispatch, getState) => {
-  console.log(id, data);
   dispatch({
     type: EDIT_DISH_REQUEST,
   });
@@ -122,8 +121,8 @@ export const loadDishes = () => (dispatch, getState) => {
       });
     })
     .catch((err) => {
-      console.log(err.message);
-      // dispatch(returnError(err.response.data.message.msg, err.response.status));
+      dispatch(returnError(err.response.data.message, err.response.status));
+      setTimeout(() => dispatch(clearErrors()), 3000);
       dispatch({
         type: GET_DISHES_FAILURE,
       });

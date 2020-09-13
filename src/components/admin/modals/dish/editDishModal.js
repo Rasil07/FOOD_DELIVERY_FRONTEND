@@ -29,14 +29,13 @@ const EditDishModal = (props) => {
   const [price, setPrice] = useState(`${props.item.price}`);
   const [image, setImage] = useState("");
   const handleSubmit = (e) => {
-    // console.log(name, price, category, image);
     e.preventDefault();
     const data = new FormData();
     data.append("name", name);
     data.append("category", category);
     data.append("price", price);
     data.append("image", image);
-    console.log("data", data);
+
     dispatch(editDish(props.item._id, data));
     setCategory(`${props.item.category}`);
     setName(`${props.item.name}`);

@@ -50,7 +50,7 @@ class Dish extends Component {
         {" "}
         <h1>Dish</h1>
         <AddDishModal />
-        <DishtableWrapper>
+        <TableWrapper>
           <Table borderless hover responsive size="sm">
             <thead>
               <tr>
@@ -67,13 +67,13 @@ class Dish extends Component {
                 : `No dishes`}
             </tbody>
           </Table>
-        </DishtableWrapper>
+        </TableWrapper>
       </Fragment>
     );
   }
 }
 
-const DishtableWrapper = styled.div`
+const TableWrapper = styled.div`
   width: 100%;
 
   overflow-y: scroll;

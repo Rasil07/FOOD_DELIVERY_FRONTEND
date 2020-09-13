@@ -42,7 +42,6 @@ export const loadUser = () => (dispatch, getState) => {
         })
       )
       .catch((err) => {
-        // console.log("load user errors", err);
         dispatch(returnError(err.response.data.message, err.response.status));
         dispatch({
           type: AUTH_ERRORS,
@@ -85,7 +84,7 @@ export const loginUser = ({ email, password }) => (dispatch) => {
       });
 
       let errorMessage = err.response.data.message;
-      console.log(errorMessage);
+
       var val = [];
       for (var key in errorMessage) {
         if (errorMessage.hasOwnProperty(key)) {
@@ -139,7 +138,7 @@ export const registerUser = ({
       dispatch({
         type: REGISTER_USER_FAILURE,
       });
-      // console.log("actions", err.response.data.message);
+
       let errorMessage = err.response.data.message;
 
       // var val = [];
